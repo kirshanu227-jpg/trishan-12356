@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analog Signal Spectrum Analyzer | Interactive Learning Tool</title>
+  <meta name="description" content="Interactive Analog Signal Spectrum Analyzer for Electrical Engineering students studying Analog Communication. Generate signals, visualize time domain, and analyze frequency spectrum in real time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <!-- ===== LOADER ===== -->
+  <div id="loader" class="loader-overlay">
+    <div class="loader-content">
+      <div class="loader-ring"></div>
+      <div class="loader-ring"></div>
+      <div class="loader-ring"></div>
+      <p class="loader-text">Initializing Spectrum Analyzer…</p>
+    </div>
+  </div>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header id="site-header" class="site-header">
+    <div class="header-inner container">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="18" stroke="url(#brandGrad)" stroke-width="2.5"/>
+            <path d="M8 20 Q14 8, 20 20 Q26 32, 32 20" stroke="url(#brandGrad)" stroke-width="2" fill="none"/>
+            <defs><linearGradient id="brandGrad" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#0080ff"/></linearGradient></defs>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Analog Signal Spectrum Analyzer</h1>
+          <p class="brand-subtitle">Interactive Analog Communication Learning Tool</p>
+        </div>
+      </div>
+
+      <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+          <li><a href="#signal-generator" class="nav-link" data-section="signal-generator">Signal Generator</a></li>
+          <li><a href="#spectrum-analysis" class="nav-link" data-section="spectrum-analysis">Spectrum Analysis</a></li>
+          <li><a href="#theory" class="nav-link" data-section="theory">Theory</a></li>
+          <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle light/dark mode" title="Toggle Theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button id="mobile-menu-btn" class="icon-btn mobile-only" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO / HOME ===== -->
+    <section id="home" class="section hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">⚡ Engineering Lab Tool</div>
+          <h2 class="hero-title">
+            Visualize & Analyze<br/>
+            <span class="gradient-text">Analog Signals</span>
+          </h2>
+          <p class="hero-desc">
+            Generate sine and cosine waves, view them in the time domain, perform real-time FFT analysis,
+            and explore the frequency spectrum — all in your browser.
+          </p>
+          <div class="hero-actions">
+            <a href="#signal-generator" class="btn btn-primary btn-lg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Launch Analyzer
+            </a>
+            <a href="#theory" class="btn btn-outline btn-lg">Learn Theory</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-value">5 kHz</span>
+              <span class="stat-label">Max Frequency</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">Real-Time</span>
+              <span class="stat-label">FFT Analysis</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">2</span>
+              <span class="stat-label">Signal Types</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <canvas id="hero-wave-canvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SIGNAL GENERATOR + TIME DOMAIN ===== -->
+    <section id="signal-generator" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Signal Generator</h2>
+          <p class="section-subtitle">Configure and generate analog signals for analysis</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Controls Panel -->
+          <div class="card controls-card">
+            <div class="card-header">
+              <div class="card-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></div>
+              <h3>Signal Parameters</h3>
+            </div>
+            <div class="card-body">
+              <div class="control-group">
+                <label for="signal-type">Signal Type</label>
+                <div class="select-wrap">
+                  <select id="signal-type">
+                    <option value="sine">Sine Wave</option>
+                    <option value="cosine">Cosine Wave</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label for="frequency-slider">Frequency: <span id="freq-val" class="val-badge">440 Hz</span></label>
+                <input id="frequency-slider" type="range" min="1" max="5000" value="440" step="1" />
+                <div class="range-labels"><span>1 Hz</span><span>5000 Hz</span></div>
+              </div>
+
+              <div class="control-group">
+                <label for="amplitude-slider">Amplitude: <span id="amp-val" class="val-badge">1.0 V</span></label>
+                <input id="amplitude-slider" type="range" min="0" max="10" value="1" step="0.1" />
+                <div class="range-labels"><span>0 V</span><span>10 V</span></div>
+              </div>
+
+              <div class="control-group">
+                <label for="phase-slider">Phase Shift: <span id="phase-val" class="val-badge">0°</span></label>
+                <input id="phase-slider" type="range" min="0" max="360" value="0" step="1" />
+                <div class="range-labels"><span>0°</span><span>360°</span></div>
+              </div>
+
+              <div class="control-group">
+                <label for="sampling-freq">Sampling Frequency: <span id="fs-val" class="val-badge">44100 Hz</span></label>
+                <input id="sampling-freq" type="range" min="1000" max="96000" value="44100" step="100" />
+                <div class="range-labels"><span>1 kHz</span><span>96 kHz</span></div>
+              </div>
+
+              <div class="btn-row">
+                <button id="generate-btn" class="btn btn-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  Generate Signal
+                </button>
+                <button id="reset-btn" class="btn btn-ghost">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Domain Chart -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div class="card-icon cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              <h3>Time Domain</h3>
+              <div class="card-actions">
+                <button id="export-time-png" class="btn btn-sm btn-ghost" title="Export as PNG">PNG</button>
+                <button id="export-time-csv" class="btn btn-sm btn-ghost" title="Export as CSV">CSV</button>
+              </div>
+            </div>
+            <div class="card-body chart-body">
+              <canvas id="time-chart"></canvas>
+              <p class="chart-hint">Signal Amplitude vs Time — scroll to zoom, drag to pan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SPECTRUM ANALYSIS ===== -->
+    <section id="spectrum-analysis" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Frequency Spectrum Analyzer</h2>
+          <p class="section-subtitle">Real-time FFT analysis of the generated signal</p>
+        </div>
+
+        <div class="dashboard-grid spectrum-grid">
+          <!-- Spectrum Chart -->
+          <div class="card chart-card spectrum-chart-card">
+            <div class="card-header">
+              <div class="card-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="12" y1="4" x2="12" y2="20"/><polyline points="7 14 10 10 13 16 17 8"/></svg></div>
+              <h3>Frequency Spectrum</h3>
+              <div class="card-actions">
+                <button id="export-fft-png" class="btn btn-sm btn-ghost" title="Export as PNG">PNG</button>
+                <button id="export-fft-csv" class="btn btn-sm btn-ghost" title="Export as CSV">CSV</button>
+              </div>
+            </div>
+            <div class="card-body chart-body">
+              <canvas id="fft-chart"></canvas>
+              <p class="chart-hint">Magnitude vs Frequency — scroll to zoom, drag to pan</p>
+            </div>
+          </div>
+
+          <!-- Signal Info Card -->
+          <div class="card info-card">
+            <div class="card-header">
+              <div class="card-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+              <h3>Signal Information</h3>
+            </div>
+            <div class="card-body">
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="info-label">Signal Type</span>
+                  <span id="info-type" class="info-value">Sine Wave</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Frequency (f)</span>
+                  <span id="info-freq" class="info-value">440 Hz</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Amplitude</span>
+                  <span id="info-amp" class="info-value">1.0 V</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Phase Shift (φ)</span>
+                  <span id="info-phase" class="info-value">0°</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Sampling Freq (fs)</span>
+                  <span id="info-fs" class="info-value">44100 Hz</span>
+                </div>
+                <div class="info-item highlight">
+                  <span class="info-label">Peak Frequency</span>
+                  <span id="info-peak" class="info-value">— Hz</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Period (T = 1/f)</span>
+                  <span id="info-period" class="info-value">2.273 ms</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Angular Freq (ω = 2πf)</span>
+                  <span id="info-omega" class="info-value">2764.60 rad/s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== INTERACTIVE PRESETS ===== -->
+    <section id="presets" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Interactive Learning</h2>
+          <p class="section-subtitle">One-click preset examples to explore different signal types</p>
+        </div>
+        <div class="presets-grid">
+          <button class="preset-card" data-preset="voice" id="preset-voice">
+            <div class="preset-icon">🎤</div>
+            <h4>Voice Signal</h4>
+            <p>300 Hz · 0.8 V · Sine</p>
+          </button>
+          <button class="preset-card" data-preset="audio" id="preset-audio">
+            <div class="preset-icon">🎵</div>
+            <h4>Audio Tone (A4)</h4>
+            <p>440 Hz · 1.0 V · Sine</p>
+          </button>
+          <button class="preset-card" data-preset="low" id="preset-low">
+            <div class="preset-icon">📻</div>
+            <h4>Low Frequency</h4>
+            <p>50 Hz · 2.0 V · Cosine</p>
+          </button>
+          <button class="preset-card" data-preset="high" id="preset-high">
+            <div class="preset-icon">📡</div>
+            <h4>High Frequency</h4>
+            <p>4000 Hz · 0.5 V · Sine</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Features</h2>
+          <p class="section-subtitle">Professional-grade tools for signal analysis</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon blue-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h4>Signal Generation</h4>
+            <p>Create sine and cosine waveforms with full control over frequency, amplitude, and phase.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon cyan-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            <h4>FFT Analysis</h4>
+            <p>Real-time Fast Fourier Transform computed entirely in the browser using optimized JavaScript.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon purple-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <h4>Spectrum Visualization</h4>
+            <p>Interactive frequency spectrum charts with zoom, pan, and peak frequency detection.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon green-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h4>Educational Content</h4>
+            <p>Comprehensive theory on analog signals, spectrum analysis, and communication systems.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon orange-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <h4>Real-Time Calculation</h4>
+            <p>Instantly compute period, angular frequency, and peak detection as parameters change.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon pink-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <h4>Export & Download</h4>
+            <p>Export charts as PNG images or download raw signal data as CSV for further analysis.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THEORY ===== -->
+    <section id="theory" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Analog Communication Theory</h2>
+          <p class="section-subtitle">Core concepts every EE student should know</p>
+        </div>
+
+        <div class="theory-grid">
+          <details class="theory-card" open>
+            <summary>
+              <span class="theory-num">01</span>
+              <span>What is an Analog Signal?</span>
+            </summary>
+            <div class="theory-body">
+              <p>An <strong>analog signal</strong> is a continuous-time signal in which the signal value varies smoothly and can take on any value within a given range. Unlike digital signals that are discrete, analog signals represent physical quantities such as sound, light, and temperature as continuous waveforms.</p>
+              <p>Mathematically, a basic analog signal can be represented as:</p>
+              <div class="formula">x(t) = A · sin(2πft + φ)</div>
+              <p>Where <strong>A</strong> is the amplitude, <strong>f</strong> is the frequency, and <strong>φ</strong> is the phase.</p>
+            </div>
+          </details>
+
+          <details class="theory-card">
+            <summary>
+              <span class="theory-num">02</span>
+              <span>Time Domain Representation</span>
+            </summary>
+            <div class="theory-body">
+              <p>The <strong>time domain</strong> representation displays how a signal's amplitude changes over time. It is the most intuitive way to visualize a waveform — the horizontal axis represents time and the vertical axis represents amplitude.</p>
+              <p>Key parameters visible in the time domain:</p>
+              <ul>
+                <li><strong>Period (T):</strong> Time for one complete cycle, T = 1/f</li>
+                <li><strong>Peak Amplitude:</strong> Maximum deviation from zero</li>
+                <li><strong>Phase:</strong> Horizontal shift of the waveform</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="theory-card">
+            <summary>
+              <span class="theory-num">03</span>
+              <span>Frequency Domain Representation</span>
+            </summary>
+            <div class="theory-body">
+              <p>The <strong>frequency domain</strong> shows which frequencies are present in a signal and their magnitudes. The transformation from time domain to frequency domain is achieved using the <strong>Fourier Transform</strong>.</p>
+              <p>The Discrete Fourier Transform (DFT) is defined as:</p>
+              <div class="formula">X[k] = Σ x[n] · e<sup>-j2πkn/N</sup></div>
+              <p>A pure sine wave at frequency <em>f</em> will appear as a single spike at <em>f</em> in the frequency spectrum.</p>
+            </div>
+          </details>
+
+          <details class="theory-card">
+            <summary>
+              <span class="theory-num">04</span>
+              <span>Importance of Spectrum Analysis</span>
+            </summary>
+            <div class="theory-body">
+              <p>Spectrum analysis is fundamental in analog communication because:</p>
+              <ul>
+                <li><strong>Bandwidth Allocation:</strong> Determines how much of the frequency spectrum a signal occupies, which is critical for efficient channel usage.</li>
+                <li><strong>Interference Detection:</strong> Identifies unwanted frequency components from noise or neighboring channels.</li>
+                <li><strong>Filter Design:</strong> Guides the design of filters to pass desired frequencies and reject others.</li>
+                <li><strong>Modulation Analysis:</strong> Reveals the carrier frequency and sidebands in AM, FM, and PM modulated signals.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="theory-card">
+            <summary>
+              <span class="theory-num">05</span>
+              <span>Applications in Analog Communication</span>
+            </summary>
+            <div class="theory-body">
+              <p>Analog signals and spectrum analysis are used in:</p>
+              <ul>
+                <li><strong>AM/FM Radio Broadcasting:</strong> Signal modulation and demodulation rely on frequency domain understanding.</li>
+                <li><strong>Telephony:</strong> Voice signals are analog and their bandwidth determines channel capacity.</li>
+                <li><strong>Television:</strong> Video signals are composite analog waveforms requiring spectral management.</li>
+                <li><strong>Radar Systems:</strong> Pulse waveform spectrum analysis determines range resolution.</li>
+                <li><strong>Biomedical Instrumentation:</strong> ECG, EEG signals are analyzed in the frequency domain for diagnostics.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="theory-card">
+            <summary>
+              <span class="theory-num">06</span>
+              <span>Communication System Signal Analysis</span>
+            </summary>
+            <div class="theory-body">
+              <p>In a communication system, signal analysis involves understanding how information-bearing signals interact with the transmission medium:</p>
+              <ul>
+                <li><strong>Signal-to-Noise Ratio (SNR):</strong> Comparing signal power to noise power in the frequency domain.</li>
+                <li><strong>Channel Bandwidth:</strong> The range of frequencies a channel can support, directly related to Shannon's capacity theorem.</li>
+                <li><strong>Nyquist Criterion:</strong> The minimum sampling rate must be at least 2× the highest frequency component (f<sub>s</sub> ≥ 2f<sub>max</sub>).</li>
+                <li><strong>Aliasing:</strong> Occurs when the sampling frequency is below the Nyquist rate, causing spectral overlap.</li>
+              </ul>
+              <div class="formula">C = B · log₂(1 + SNR) — Shannon's Channel Capacity</div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">About This Tool</h2>
+          <p class="section-subtitle">Built for learning and experimentation</p>
+        </div>
+        <div class="about-content">
+          <div class="about-card">
+            <h4>Purpose</h4>
+            <p>This tool is designed as an interactive educational resource for Electrical and Electronics Engineering students studying <strong>Analog Communication</strong>. It lets you experiment with signal generation and spectrum analysis right in the browser — no installations, no backend required.</p>
+          </div>
+          <div class="about-card">
+            <h4>How It Works</h4>
+            <p>Signals are generated mathematically using sampled sinusoidal functions. The <strong>Fast Fourier Transform (FFT)</strong> is computed entirely in JavaScript using a radix-2 Cooley-Tukey algorithm. Charts are rendered with Chart.js for smooth, interactive visualization.</p>
+          </div>
+          <div class="about-card">
+            <h4>Technology</h4>
+            <p>Built with <strong>HTML5, CSS3, and vanilla JavaScript</strong>. Uses <strong>Chart.js</strong> for interactive graph rendering and <strong>Chart.js Zoom Plugin</strong> for pan/zoom functionality. All computation happens client-side for instant results.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <svg viewBox="0 0 40 40" fill="none" class="footer-logo">
+          <circle cx="20" cy="20" r="18" stroke="url(#footGrad)" stroke-width="2"/>
+          <path d="M8 20 Q14 8, 20 20 Q26 32, 32 20" stroke="url(#footGrad)" stroke-width="2" fill="none"/>
+          <defs><linearGradient id="footGrad" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#0080ff"/></linearGradient></defs>
+        </svg>
+        <span>Analog Signal Spectrum Analyzer</span>
+      </div>
+      <div class="footer-info">
+        <p>Developed for <strong>Analog Communication Assignment</strong></p>
+        <p>Electrical Engineering Department</p>
+        <p class="footer-muted">Responsive & Educational Web Tool · © 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== TOOLTIP ===== -->
+  <div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
